@@ -7,4 +7,4 @@ edition = "2021"
 
 [dependencies]
 bevy = {version = "0.6", features = ["dynamic"] }
-heron = {git = "https://github.com/jcornaz/heron.git", ref="64e76e4cfab7ca9452ec1657a93ab6f4e26111f3", features = ["2d"]}
+heron = {git = "https://github.com/jcornaz/heron.git", ref="64e76e4cfab7ca9452ec1657a93ab6f4e26111f3", features = ["debug-2d"]}

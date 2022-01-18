@@ -1,20 +1,12 @@
 use bevy::prelude::*;
 
+#[derive(Default)]
 pub struct Shapes {
     pub object_north: Handle<Image>,
     pub object_south: Handle<Image>,
     pub object_east: Handle<Image>,
     pub object_west: Handle<Image>,
-}
-impl Default for Shapes {
-    fn default() -> Self {
-        Shapes {
-            object_north: Handle::default(),
-            object_south: Handle::default(),
-            object_east: Handle::default(),
-            object_west: Handle::default(),
-        }
-    }
+    pub tree: Handle<Image>,
 }
 
 #[derive(Default)]

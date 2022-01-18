@@ -13,6 +13,7 @@ pub fn startup_system(
         object_south: asset_server.load("south.png"),
         object_east: asset_server.load("east.png"),
         object_west: asset_server.load("west.png"),
+        tree: asset_server.load("tree.png"),
     };
 
     commands.spawn_bundle(OrthographicCameraBundle {
@@ -23,6 +24,9 @@ pub fn startup_system(
         ..OrthographicCameraBundle::new_2d()
     });
     commands.spawn_bundle(bundle::PlayerBundle::from_max_life(100.0, &shapes));
+    for i in 0..5 {
+        commands.spawn_bundle(bundle::TreeBundle::new(&shapes, -4.0, i as f32));
+    }
 
 
     commands.spawn_bundle(UiCameraBundle {

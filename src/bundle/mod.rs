@@ -39,8 +39,8 @@ impl CreatureBundle {
 
             rigid_body: RigidBody::Dynamic,
             collision_shape: CollisionShape::Cuboid {
-                half_extends: Vec3::new(5.0, 5.0, 1000.0),
-                border_radius: Some(2.0)
+                half_extends: Vec3::new(0.4, 0.4, 1000.0),
+                border_radius: Some(0.1)
             },
             rotation_constraints: RotationConstraints::lock(),
             velocity: Velocity::from_linear(Vec3::new(0.0, 0.0, 0.0)),
@@ -62,6 +62,35 @@ impl PlayerBundle {
             creature: CreatureBundle {
                 ..CreatureBundle::with_max_life(max_life, shapes)
             },
+        }
+    }
+}
+
+#[derive(Bundle)]
+pub struct TreeBundle {
+    #[bundle]
+    sprite_bundle: SpriteBundle,
+
+    rigid_body: RigidBody,
+    collision_shape: CollisionShape,
+}
+impl TreeBundle {
+    pub fn new(shapes: &resources::Shapes, x: f32, y: f32) -> Self {
+        TreeBundle {
+            sprite_bundle: SpriteBundle {
+                texture: shapes.tree.clone(),
+                sprite: Sprite {
+                    custom_size: Some(Vec2::new(1.0, 1.0)),
+                    ..Default::default()
+                },
+                transform: Transform::from_xyz(x, y, 100.0),
+                ..Default::default()
+            },
+            rigid_body: RigidBody::Static,
+            collision_shape: CollisionShape::Cuboid {
+                half_extends: Vec3::new(0.4, 0.4, 1000.0),
+                border_radius: Some(0.1),
+            }
         }
     }
 }
