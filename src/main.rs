@@ -1,5 +1,4 @@
 use bevy::prelude::*;
-use bevy_prototype_lyon::prelude::*;
 use heron::prelude::*;
 
 mod events;
@@ -24,7 +23,6 @@ fn main() {
             ..Default::default()
         })
         .add_plugins(DefaultPlugins)
-        .add_plugin(ShapePlugin)
         .add_plugin(PhysicsPlugin::default())
         .add_event::<events::InputEvent>()
         .add_startup_system(systems::startup_system)
@@ -32,6 +30,7 @@ fn main() {
         .add_system(systems::input_system.label(GameSystemLabel::Input))
         .add_system(systems::player_system.after(GameSystemLabel::Input))
         .add_system(systems::life_display_system)
+        .add_system(systems::shape_update_system)
 
         .run();
 }

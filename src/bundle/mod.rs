@@ -1,6 +1,5 @@
 use bevy::prelude::*;
 use heron::prelude::*;
-use bevy_prototype_lyon::prelude::*;
 
 use crate::components;
 use crate::resources;
@@ -13,16 +12,30 @@ pub struct CreatureBundle {
     collision_shape: CollisionShape,
     rotation_constraints: RotationConstraints,
     velocity: Velocity,
+    creature_shape: components::CreatureShapes,
 
     #[bundle]
-    shape_bundle: bevy_prototype_lyon::entity::ShapeBundle,
+    sprite_bundle: SpriteBundle,
 }
 impl CreatureBundle {
-    pub fn with_max_life(max_life: f32) -> Self {
+    pub fn with_max_life(max_life: f32, shapes: &resources::Shapes) -> Self {
         CreatureBundle {
-            shape_bundle: bevy_prototype_lyon::entity::ShapeBundle::default(),
+            sprite_bundle: SpriteBundle {
+                texture: shapes.object_south.clone(),
+                sprite: Sprite {
+                    custom_size: Some(Vec2::new(1.0, 1.0)),
+                    ..Default::default()
+                },
+                ..SpriteBundle::default()
+            },
             life: components::Life::with_max(max_life),
             direction: components::Direction::South,
+            creature_shape: components::CreatureShapes {
+                north: shapes.object_north.clone(),
+                south: shapes.object_south.clone(),
+                east: shapes.object_east.clone(),
+                west: shapes.object_west.clone(),
+            },
 
             rigid_body: RigidBody::Dynamic,
             collision_shape: CollisionShape::Cuboid {
@@ -47,15 +60,7 @@ impl PlayerBundle {
         PlayerBundle {
             player: components::Player,
             creature: CreatureBundle {
-                shape_bundle: GeometryBuilder::build_as(
-                    &shapes.object_south,
-                    DrawMode::Outlined {
-                        fill_mode: FillMode::color(Color::CYAN),
-                        outline_mode: StrokeMode::new(Color::BLACK, 0.1),
-                    },
-                    Transform::default(),
-                ),
-                ..CreatureBundle::with_max_life(max_life)
+                ..CreatureBundle::with_max_life(max_life, shapes)
             },
         }
     }

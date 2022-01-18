@@ -21,6 +21,14 @@ impl Life {
 }
 
 #[derive(Component)]
+pub struct CreatureShapes {
+    pub north: Handle<Image>,
+    pub south: Handle<Image>,
+    pub east: Handle<Image>,
+    pub west: Handle<Image>,
+}
+
+#[derive(Component)]
 pub enum Direction {
     North, South, East, West
 }
