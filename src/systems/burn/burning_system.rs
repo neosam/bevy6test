@@ -22,7 +22,9 @@ pub fn burning_system(
             burn_query.get_component::<components::Burn>(*burn_entity),
             burnable_query.get_component_mut::<components::Burnable>(*burnable_entity),
         ) {
-            burnable.resist -= burn.strength * time.delta_seconds();
+            if !burnable.inactive {
+                burnable.resist -= burn.strength * time.delta_seconds();
+            }
         }
     }
 }

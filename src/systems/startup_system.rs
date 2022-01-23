@@ -30,7 +30,7 @@ pub fn startup_system(
         commands.spawn_bundle(bundle::TreeBundle::new(&shapes, -4.0, i as f32));
     }
 
-    commands.spawn_bundle(bundle::CampfireBundle::new(&shapes, -2.0, 0.0));
+    commands.spawn_bundle(bundle::CampfireBundle::new(&shapes, -2.0, -1.0));
 
 
     commands.spawn_bundle(UiCameraBundle {

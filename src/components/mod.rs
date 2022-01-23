@@ -43,5 +43,9 @@ pub struct Burn {
 #[derive(Component)]
 pub struct Burnable {
     pub resist: f32,
+    pub max_resistence: f32,
+    pub min_resistence_to_burn: f32,
+    pub recover: f32,
+    pub inactive: bool,
     pub burn: Burn,
 }

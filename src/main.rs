@@ -36,6 +36,7 @@ fn main() {
         .add_system(systems::collision_handler_system)
         .add_system(systems::burn::burning_system::burning_system)
         .add_system(systems::burn::burn_down_system::burn_down_system)
+        .add_system(systems::burn::burn_recover_system::burn_recover_system)
 
         .run();
 }

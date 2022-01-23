@@ -94,6 +94,10 @@ impl TreeBundle {
             },
             burnable: components::Burnable {
                 resist: 5.0,
+                max_resistence: 5.0,
+                min_resistence_to_burn: 5.0,
+                recover: 0.25,
+                inactive: false,
                 burn: components::Burn { fuel: 10.0, radius: 1.0, strength: 1.0 }
             }
         }
@@ -121,6 +125,10 @@ impl CampfireBundle {
             },
             burnable: components::Burnable{
                 resist: 0.0,
+                max_resistence: 1.0,
+                min_resistence_to_burn: 1.0,
+                recover: 1.0,
+                inactive: false,
                 burn: components::Burn{ fuel: 10000000.0, radius: 2.0, strength: 1.0 },
             },
         }
