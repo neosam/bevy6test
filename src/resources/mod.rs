@@ -7,6 +7,8 @@ pub struct Shapes {
     pub object_east: Handle<Image>,
     pub object_west: Handle<Image>,
     pub tree: Handle<Image>,
+    pub camp: Handle<Image>,
+    pub fire: Handle<Image>,
 }
 
 #[derive(Default)]

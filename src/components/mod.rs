@@ -32,3 +32,16 @@ pub struct CreatureShapes {
 pub enum Direction {
     North, South, East, West
 }
+
+#[derive(Component, Clone)]
+pub struct Burn {
+    pub fuel: f32,
+    pub radius: f32,
+    pub strength: f32,
+}
+
+#[derive(Component)]
+pub struct Burnable {
+    pub resist: f32,
+    pub burn: Burn,
+}

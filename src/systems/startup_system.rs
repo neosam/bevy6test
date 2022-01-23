@@ -14,6 +14,8 @@ pub fn startup_system(
         object_east: asset_server.load("east.png"),
         object_west: asset_server.load("west.png"),
         tree: asset_server.load("tree.png"),
+        camp: asset_server.load("camp.png"),
+        fire: asset_server.load("fire.png"),
     };
 
     commands.spawn_bundle(OrthographicCameraBundle {
@@ -27,6 +29,8 @@ pub fn startup_system(
     for i in 0..5 {
         commands.spawn_bundle(bundle::TreeBundle::new(&shapes, -4.0, i as f32));
     }
+
+    commands.spawn_bundle(bundle::CampfireBundle::new(&shapes, -2.0, 0.0));
 
 
     commands.spawn_bundle(UiCameraBundle {
