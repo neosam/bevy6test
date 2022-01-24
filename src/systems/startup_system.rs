@@ -26,8 +26,13 @@ pub fn startup_system(
         ..OrthographicCameraBundle::new_2d()
     });
     commands.spawn_bundle(bundle::PlayerBundle::from_max_life(100.0, &shapes));
-    for i in 0..5 {
-        commands.spawn_bundle(bundle::TreeBundle::new(&shapes, -4.0, i as f32));
+    for y in -20..20 {
+        for x in -20..20 {
+            if x == -2 && y == -1 {
+                continue;
+            }
+            commands.spawn_bundle(bundle::TreeBundle::new(&shapes, x as f32, y as f32));
+        }
     }
 
     commands.spawn_bundle(bundle::CampfireBundle::new(&shapes, -2.0, -1.0));

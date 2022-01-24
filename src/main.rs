@@ -1,4 +1,4 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin}};
 use heron::prelude::*;
 
 mod events;
@@ -19,9 +19,13 @@ fn main() {
     App::new()
         .insert_resource(WindowDescriptor {
             title: "My test game".into(),
-            vsync: true,
+            vsync: false,
+
             ..Default::default()
         })
+        .add_plugin(FrameTimeDiagnosticsPlugin::default())
+        // Adds a system that prints diagnostics to the console
+        .add_plugin(LogDiagnosticsPlugin::default())
         .add_plugins(DefaultPlugins)
         .add_plugin(PhysicsPlugin::default())
         .add_event::<events::InputEvent>()
@@ -39,4 +43,7 @@ fn main() {
         .add_system(systems::burn::burn_recover_system::burn_recover_system)
 
         .run();
+
+        let x = 5;
+        println!("{x}");
 }

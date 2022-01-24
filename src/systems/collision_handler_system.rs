@@ -26,7 +26,6 @@ pub fn collision_handler_system(
     mut burn_burnable_events: EventWriter<events::BurnBurnableEvent>,
 ) {
     for event in collision_events.iter() {
-        println!("{:?}", event);
         let (entity1, entity2) = event.collision_shape_entities();
         if let Some((entity1, entity2)) = check_collision!(
             components::Burn, burn_query, components::Burnable, burnable_query, entity1, entity2)
