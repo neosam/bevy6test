@@ -3,7 +3,14 @@ use bevy::prelude::*;
 use crate::components;
 
 pub fn shape_update_system(
-    mut query: Query<(&mut Handle<Image>, &components::Direction, &components::CreatureShapes), Changed<components::Direction>>,
+    mut query: Query<
+        (
+            &mut Handle<Image>,
+            &components::Direction,
+            &components::CreatureShapes,
+        ),
+        Changed<components::Direction>,
+    >,
 ) {
     for (mut image, direction, shapes) in query.iter_mut() {
         match *direction {

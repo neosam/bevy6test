@@ -9,6 +9,7 @@ pub struct Shapes {
     pub tree: Handle<Image>,
     pub camp: Handle<Image>,
     pub fire: Handle<Image>,
+    pub bullet: Handle<Image>,
 }
 
 #[derive(Default)]

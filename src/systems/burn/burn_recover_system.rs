@@ -2,10 +2,7 @@ use bevy::prelude::*;
 
 use crate::components;
 
-pub fn burn_recover_system(
-    mut query: Query<&mut components::Burnable>,
-    time: Res<Time>,
-) {
+pub fn burn_recover_system(mut query: Query<&mut components::Burnable>, time: Res<Time>) {
     for mut burnable in query.iter_mut() {
         burnable.resist += burnable.recover * time.delta_seconds();
         if burnable.resist >= burnable.max_resistence {

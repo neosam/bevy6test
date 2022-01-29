@@ -13,10 +13,7 @@ pub struct Life {
 }
 impl Life {
     pub fn with_max(max: f32) -> Self {
-        Life {
-            current: max,
-            max,
-        }
+        Life { current: max, max }
     }
 }
 
@@ -30,7 +27,10 @@ pub struct CreatureShapes {
 
 #[derive(Component)]
 pub enum Direction {
-    North, South, East, West
+    North,
+    South,
+    East,
+    West,
 }
 
 #[derive(Component, Clone)]

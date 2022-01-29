@@ -15,7 +15,9 @@ macro_rules! check_collision {
             $t1_query.get_component::<$t1>($entity2),
         ) {
             Some(($entity2, $entity1))
-        } else { None }
+        } else {
+            None
+        }
     };
 }
 
@@ -28,9 +30,14 @@ pub fn collision_handler_system(
     for event in collision_events.iter() {
         let (entity1, entity2) = event.collision_shape_entities();
         if let Some((entity1, entity2)) = check_collision!(
-            components::Burn, burn_query, components::Burnable, burnable_query, entity1, entity2)
-        {
-            burn_burnable_events.send(events::BurnBurnableEvent { 
+            components::Burn,
+            burn_query,
+            components::Burnable,
+            burnable_query,
+            entity1,
+            entity2
+        ) {
+            burn_burnable_events.send(events::BurnBurnableEvent {
                 burn_entity: entity1,
                 burnable_entity: entity2,
                 stage: events::EventStage::from_started(event.is_started()),

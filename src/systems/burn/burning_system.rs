@@ -1,6 +1,6 @@
 use bevy::{prelude::*, utils::HashSet};
 
-use crate::{events, components};
+use crate::{components, events};
 
 pub fn burning_system(
     mut burn_burnable_events: EventReader<events::BurnBurnableEvent>,

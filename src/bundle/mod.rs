@@ -40,7 +40,7 @@ impl CreatureBundle {
             rigid_body: RigidBody::Dynamic,
             collision_shape: CollisionShape::Cuboid {
                 half_extends: Vec3::new(0.4, 0.4, 1000.0),
-                border_radius: Some(0.1)
+                border_radius: Some(0.1),
             },
             rotation_constraints: RotationConstraints::lock(),
             velocity: Velocity::from_linear(Vec3::new(0.0, 0.0, 0.0)),
@@ -98,8 +98,12 @@ impl TreeBundle {
                 min_resistence_to_burn: 5.0,
                 recover: 0.25,
                 inactive: false,
-                burn: components::Burn { fuel: 10.0, radius: 1.0, strength: 1.0 }
-            }
+                burn: components::Burn {
+                    fuel: 10.0,
+                    radius: 1.0,
+                    strength: 1.0,
+                },
+            },
         }
     }
 }
@@ -123,13 +127,17 @@ impl CampfireBundle {
                 transform: Transform::from_xyz(x, y, 100.0),
                 ..Default::default()
             },
-            burnable: components::Burnable{
+            burnable: components::Burnable {
                 resist: 0.0,
                 max_resistence: 1.0,
                 min_resistence_to_burn: 1.0,
                 recover: 1.0,
                 inactive: false,
-                burn: components::Burn{ fuel: 10000000.0, radius: 2.0, strength: 1.0 },
+                burn: components::Burn {
+                    fuel: 10000000.0,
+                    radius: 2.0,
+                    strength: 1.0,
+                },
             },
         }
     }
@@ -150,14 +158,70 @@ impl Fire {
             sprite_bundle: SpriteBundle {
                 texture: shapes.fire.clone(),
                 sprite: Sprite {
-                    custom_size: Some(Vec2::new(1.0, 1.0)),
+                    custom_size: Some(Vec2::new(0.8, 0.8)),
                     ..Default::default()
                 },
                 ..Default::default()
             },
             burn: burnable.burn.clone(),
             rigid_body: RigidBody::Sensor,
-            collision_shape: CollisionShape::Sphere { radius: burnable.burn.radius }
+            collision_shape: CollisionShape::Sphere {
+                radius: burnable.burn.radius,
+            },
+        }
+    }
+}
+
+#[derive(Bundle)]
+pub struct BulletBundle {
+    #[bundle]
+    pub sprite_bundle: SpriteBundle,
+
+    pub rigid_body: RigidBody,
+    pub collision_shape: CollisionShape,
+    pub velocity: Velocity,
+    pub burnable: components::Burnable,
+}
+impl BulletBundle {
+    pub fn new(
+        images: &resources::Shapes,
+        direction: &components::Direction,
+        position: Vec3,
+        radius: f32,
+        speed: f32,
+    ) -> Self {
+        let velocity_speed = match *direction {
+            components::Direction::North => Vec3::new(0.0, speed, 0.0),
+            components::Direction::South => Vec3::new(0.0, -speed, 0.0),
+            components::Direction::East => Vec3::new(speed, 0.0, 0.0),
+            components::Direction::West => Vec3::new(-speed, 0.0, 0.0),
+        };
+        BulletBundle {
+            sprite_bundle: SpriteBundle {
+                texture: images.bullet.clone(),
+                sprite: Sprite {
+                    custom_size: Some(Vec2::new(radius / 2.0, radius / 2.0)),
+                    ..Default::default()
+                },
+                transform: Transform::identity().with_translation(position),
+                ..Default::default()
+            },
+
+            rigid_body: RigidBody::Dynamic,
+            collision_shape: CollisionShape::Sphere { radius: radius },
+            velocity: Velocity::from_linear(velocity_speed),
+            burnable: components::Burnable {
+                resist: 0.1,
+                max_resistence: 0.1,
+                min_resistence_to_burn: 0.1,
+                recover: 0.0,
+                inactive: false,
+                burn: components::Burn {
+                    fuel: 20.0,
+                    radius: 0.3,
+                    strength: 0.5,
+                },
+            },
         }
     }
 }

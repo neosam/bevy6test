@@ -6,6 +6,7 @@ pub enum InputEvent {
     MoveEast,
     MoveWest,
     Stop,
+    Shoot,
 }
 
 pub enum EventStage {
