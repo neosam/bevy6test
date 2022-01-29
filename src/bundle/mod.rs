@@ -6,13 +6,14 @@ use crate::resources;
 
 #[derive(Bundle)]
 pub struct CreatureBundle {
-    life: components::Life,
+    life: components::Health,
     direction: components::Direction,
     rigid_body: RigidBody,
     collision_shape: CollisionShape,
     rotation_constraints: RotationConstraints,
     velocity: Velocity,
     creature_shape: components::CreatureShapes,
+    burnable: components::Burnable,
 
     #[bundle]
     sprite_bundle: SpriteBundle,
@@ -28,7 +29,7 @@ impl CreatureBundle {
                 },
                 ..SpriteBundle::default()
             },
-            life: components::Life::with_max(max_life),
+            life: components::Health::with_max(max_life),
             direction: components::Direction::South,
             creature_shape: components::CreatureShapes {
                 north: shapes.object_north.clone(),
@@ -44,6 +45,19 @@ impl CreatureBundle {
             },
             rotation_constraints: RotationConstraints::lock(),
             velocity: Velocity::from_linear(Vec3::new(0.0, 0.0, 0.0)),
+            burnable: components::Burnable {
+                resist: 5.0,
+                max_resistence: 5.0,
+                min_resistence_to_burn: 5.0,
+                recover: 0.5,
+                inactive: false,
+                burning: false,
+                burn: components::Burn {
+                    fuel: 10.0,
+                    radius: 1.0,
+                    strength: 1.0,
+                },
+            },
         }
     }
 }
@@ -74,6 +88,7 @@ pub struct TreeBundle {
     rigid_body: RigidBody,
     collision_shape: CollisionShape,
     burnable: components::Burnable,
+    health: components::Health,
 }
 impl TreeBundle {
     pub fn new(shapes: &resources::Shapes, x: f32, y: f32) -> Self {
@@ -98,12 +113,14 @@ impl TreeBundle {
                 min_resistence_to_burn: 5.0,
                 recover: 0.25,
                 inactive: false,
+                burning: false,
                 burn: components::Burn {
-                    fuel: 10.0,
+                    fuel: 11.0,
                     radius: 1.0,
                     strength: 1.0,
                 },
             },
+            health: components::Health::with_max(10.0),
         }
     }
 }
@@ -133,9 +150,10 @@ impl CampfireBundle {
                 min_resistence_to_burn: 1.0,
                 recover: 1.0,
                 inactive: false,
+                burning: false,
                 burn: components::Burn {
                     fuel: 10000000.0,
-                    radius: 2.0,
+                    radius: 0.8,
                     strength: 1.0,
                 },
             },
@@ -161,6 +179,7 @@ impl Fire {
                     custom_size: Some(Vec2::new(0.8, 0.8)),
                     ..Default::default()
                 },
+                transform: Transform::from_xyz(0.0, 0.0, 100.0),
                 ..Default::default()
             },
             burn: burnable.burn.clone(),
@@ -181,6 +200,7 @@ pub struct BulletBundle {
     pub collision_shape: CollisionShape,
     pub velocity: Velocity,
     pub burnable: components::Burnable,
+    pub health: components::Health,
 }
 impl BulletBundle {
     pub fn new(
@@ -216,12 +236,14 @@ impl BulletBundle {
                 min_resistence_to_burn: 0.1,
                 recover: 0.0,
                 inactive: false,
+                burning: false,
                 burn: components::Burn {
                     fuel: 20.0,
                     radius: 0.3,
                     strength: 0.5,
                 },
             },
+            health: components::Health::with_max(1.0),
         }
     }
 }

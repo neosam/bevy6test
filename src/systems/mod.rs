@@ -1,5 +1,7 @@
 pub mod burn;
 pub mod collision_handler_system;
+pub mod damage_system;
+pub mod despawn_system;
 pub mod input_system;
 pub mod life_display_system;
 pub mod player_shoot_system;
@@ -9,6 +11,8 @@ pub mod startup_system;
 
 pub use burn::burn_system::burn_system;
 pub use collision_handler_system::collision_handler_system;
+pub use damage_system::damage_system;
+pub use despawn_system::despawn_system;
 pub use input_system::input_system;
 pub use life_display_system::life_display_system;
 pub use player_shoot_system::player_shoot_system;

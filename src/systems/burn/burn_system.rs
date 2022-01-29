@@ -12,6 +12,7 @@ pub fn burn_system(
     for (entity, mut burnable) in query.iter_mut() {
         if !burnable.inactive && burnable.resist <= 0.0 {
             burnable.inactive = true;
+            burnable.burning = true;
             let fire = commands
                 .spawn_bundle(bundle::Fire::new(&shapes, &burnable))
                 .id();

@@ -7,13 +7,13 @@ pub struct LifeUI;
 pub struct Player;
 
 #[derive(Component)]
-pub struct Life {
+pub struct Health {
     pub current: f32,
     pub max: f32,
 }
-impl Life {
+impl Health {
     pub fn with_max(max: f32) -> Self {
-        Life { current: max, max }
+        Health { current: max, max }
     }
 }
 
@@ -47,5 +47,15 @@ pub struct Burnable {
     pub min_resistence_to_burn: f32,
     pub recover: f32,
     pub inactive: bool,
+    pub burning: bool,
     pub burn: Burn,
+}
+
+#[derive(Component)]
+pub struct Destroyed;
+
+#[derive(Component)]
+pub struct AutoDespawn {
+    pub time_left: f32,
+    pub frames_left: i32,
 }

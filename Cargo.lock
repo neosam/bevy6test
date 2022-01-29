@@ -1694,8 +1694,9 @@ dependencies = [
 
 [[package]]
 name = "heron"
-version = "1.0.1-rc.1"
-source = "git+https://github.com/jcornaz/heron.git#9a2bba007d7e922d5e698e835fd7ee2b8d96f982"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "54579e36436e33827e21f046ea6752b3a93dbd0b05884bffe982568af7b3bebd"
 dependencies = [
  "bevy",
  "cfg_aliases",
@@ -1707,8 +1708,9 @@ dependencies = [
 
 [[package]]
 name = "heron_core"
-version = "1.0.1-rc.1"
-source = "git+https://github.com/jcornaz/heron.git#9a2bba007d7e922d5e698e835fd7ee2b8d96f982"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7099a07736abf70026b1e474fff8d74a8fa88a834cfd33e974541e6b056abb41"
 dependencies = [
  "bevy",
  "cfg_aliases",
@@ -1717,8 +1719,9 @@ dependencies = [
 
 [[package]]
 name = "heron_debug"
-version = "1.0.1-rc.1"
-source = "git+https://github.com/jcornaz/heron.git#9a2bba007d7e922d5e698e835fd7ee2b8d96f982"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5369f602ce29289fb86fdf65087ae2dcaa291bb1e16a697f99e9b627d7141a99"
 dependencies = [
  "bevy",
  "bevy_prototype_lyon",
@@ -1730,18 +1733,19 @@ dependencies = [
 
 [[package]]
 name = "heron_macros"
-version = "1.0.1-rc.1"
-source = "git+https://github.com/jcornaz/heron.git#9a2bba007d7e922d5e698e835fd7ee2b8d96f982"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a09c1e02655f04faf8d6b485f6c27422f3769343c30c39e51a2cd25f3f2869c3"
 dependencies = [
- "heron_core",
  "quote",
  "syn",
 ]
 
 [[package]]
 name = "heron_rapier"
-version = "1.0.1-rc.1"
-source = "git+https://github.com/jcornaz/heron.git#9a2bba007d7e922d5e698e835fd7ee2b8d96f982"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4bf94fface67dce71dfd0ab2c0a8b211cacf7b1d02532669671892350765b340"
 dependencies = [
  "bevy",
  "cfg_aliases",
@@ -3562,9 +3566,9 @@ dependencies = [
 
 [[package]]
 name = "wide"
-version = "0.7.3"
+version = "0.7.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "476da2f1d225632b1fffe638ff979a4bc03907e29b0ab596efca7624014f8b62"
+checksum = "b3aba2d1dac31ac7cae82847ac5b8be822aee8f99a4e100f279605016b185c5f"
 dependencies = [
  "bytemuck",
  "safe_arch",
