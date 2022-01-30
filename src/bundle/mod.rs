@@ -148,7 +148,7 @@ impl CampfireBundle {
                 ..Default::default()
             },
             burnable: components::Burnable {
-                resist: 0.0,
+                resist: -1.0,
                 max_resistence: 1.0,
                 min_resistence_to_burn: 1.0,
                 recover: 1.0,
