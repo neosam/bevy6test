@@ -205,6 +205,7 @@ pub struct BulletBundle {
     pub velocity: Velocity,
     pub burnable: components::Burnable,
     pub health: components::Health,
+    pub auto_despawn: components::AutoDespawn,
 }
 impl BulletBundle {
     pub fn new(
@@ -249,6 +250,10 @@ impl BulletBundle {
                 },
             },
             health: components::Health::with_max(1.0),
+            auto_despawn: components::AutoDespawn {
+                time_left: 10.0,
+                frames_left: 0,
+            },
         }
     }
 }
