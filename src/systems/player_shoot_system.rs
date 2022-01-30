@@ -40,7 +40,7 @@ pub fn player_shoot_system(
                     shoot_spawn,
                     0.1,
                     4.0,
-                ));
+                )).insert(Name::new("Bullet"));
             }
             _ => (),
         }
