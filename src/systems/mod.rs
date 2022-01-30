@@ -8,6 +8,7 @@ pub mod player_shoot_system;
 pub mod player_system;
 pub mod shape_update_system;
 pub mod startup_system;
+pub mod loading;
 
 pub use burn::burn_system::burn_system;
 pub use collision_handler_system::collision_handler_system;

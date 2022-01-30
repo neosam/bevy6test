@@ -32,6 +32,15 @@ fn main() {
         .add_state(state::State::Ingame)
         .add_event::<events::InputEvent>()
         .add_event::<events::BurnBurnableEvent>()
+        .insert_resource(resources::GraphicsHandles::default())
+
+        .add_system_set(SystemSet::on_enter(state::State::Loading)
+            .with_system(systems::loading::loading_startup))
+        .add_system_set(SystemSet::on_update(state::State::Loading)
+            .with_system(systems::loading::loading_update))
+        .add_system_set(SystemSet::on_enter(state::State::PostLoading)
+            .with_system(systems::loading::post_loading_startup))
+
         .add_system_set(SystemSet::on_enter(state::State::Ingame)
             .with_system(systems::startup_system))
         .add_system_set(SystemSet::on_update(state::State::Ingame)
