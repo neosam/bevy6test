@@ -8,6 +8,9 @@ pub struct LifeUI;
 pub struct Player;
 
 #[derive(Component, Inspectable)]
+pub struct MainCamera;
+
+#[derive(Component, Inspectable)]
 pub struct Health {
     pub current: f32,
     pub max: f32,

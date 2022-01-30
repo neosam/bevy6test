@@ -14,7 +14,7 @@ pub fn startup_system(
             ..Default::default()
         },
         ..OrthographicCameraBundle::new_2d()
-    });
+    }).insert(components::MainCamera);
     commands.spawn_bundle(bundle::PlayerBundle::from_max_life(100.0, &sprites))
         .insert(Name::new("Player"));
     commands.spawn()

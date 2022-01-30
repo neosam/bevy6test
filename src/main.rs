@@ -15,6 +15,7 @@ mod state;
 #[derive(PartialEq, Eq, Hash, Clone, Copy, Debug, SystemLabel)]
 pub enum GameSystemLabel {
     Input,
+    PlayerUpdate,
 }
 
 fn main() {
@@ -58,8 +59,9 @@ fn main() {
             .with_system(systems::startup_system))
         .add_system_set(SystemSet::on_update(state::State::Ingame)
             .with_system(systems::input_system.label(GameSystemLabel::Input))
-            .with_system(systems::player_system.after(GameSystemLabel::Input))
+            .with_system(systems::player_system.after(GameSystemLabel::Input).label(GameSystemLabel::PlayerUpdate))
             .with_system(systems::player_shoot_system.after(GameSystemLabel::Input))
+            .with_system(systems::camera_update_system)
             .with_system(systems::life_display_system)
             .with_system(systems::shape_update_system)
             .with_system(systems::burn_system)
