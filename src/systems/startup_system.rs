@@ -46,6 +46,7 @@ pub fn startup_system(
             color: Color::NONE.into(),
             ..Default::default()
         })
+        .insert(Name::new("UI"))
         .with_children(|parent| {
             // Bottom Bar
             parent
@@ -58,6 +59,7 @@ pub fn startup_system(
                     color: Color::GRAY.into(),
                     ..Default::default()
                 })
+                .insert(Name::new("Bottom Bar"))
                 .with_children(|parent| {
                     // Life Block
                     parent
@@ -69,6 +71,7 @@ pub fn startup_system(
                             color: Color::GRAY.into(),
                             ..Default::default()
                         })
+                        .insert(Name::new("Life Block"))
                         .with_children(|parent| {
                             // Life display
                             parent
@@ -80,7 +83,8 @@ pub fn startup_system(
                                     color: Color::RED.into(),
                                     ..Default::default()
                                 })
-                                .insert(components::LifeUI);
+                                .insert(components::LifeUI)
+                                .insert(Name::new("Life Fill"));
                         });
 
                     // Bottom Bar separator
@@ -91,7 +95,8 @@ pub fn startup_system(
                         },
                         color: Color::BLACK.into(),
                         ..Default::default()
-                    });
+                    })
+                    .insert(Name::new("Bottom Bar Separator"));
                 });
 
             // Separator
@@ -102,7 +107,8 @@ pub fn startup_system(
                 },
                 color: Color::BLACK.into(),
                 ..Default::default()
-            });
+            })
+            .insert(Name::new("Bar Top Separator"));
         });
 
     commands.insert_resource(resources::InputStore::default());
