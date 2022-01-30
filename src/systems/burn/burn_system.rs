@@ -15,6 +15,7 @@ pub fn burn_system(
             burnable.burning = true;
             let fire = commands
                 .spawn_bundle(bundle::Fire::new(&sprites, &burnable))
+                .insert(Name::new("Fire"))
                 .id();
             commands.entity(entity).push_children(&[fire]);
         }

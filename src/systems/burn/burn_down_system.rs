@@ -13,12 +13,12 @@ pub fn burn_down_system(
         burn.fuel -= time.delta_seconds();
         if burn.fuel <= 0.0 {
             commands.entity(entity).despawn();
+            if let Ok(mut burnable) = burnable_query.get_component_mut::<components::Burnable>(parent.0) {
+                burnable.burning = false;
+            }
         }
         if let Ok(mut health) = damage_query.get_component_mut::<components::Health>(parent.0) {
             health.current -= burn.strength * time.delta_seconds();
-        }
-        if let Ok(mut burnable) = burnable_query.get_component_mut::<components::Burnable>(entity) {
-            burnable.burning = false;
         }
     }
 }
