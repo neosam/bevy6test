@@ -9,7 +9,7 @@ pub fn camera_update_system(
     )>,
 ) {
     let player_translation = match queries.q0().get_single() {
-        Ok(transform ) => transform.translation,
+        Ok(transform) => transform.translation,
         Err(_) => return,
     };
     if let Ok(mut camera_transform) = queries.q1().get_single_mut() {

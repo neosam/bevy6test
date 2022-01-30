@@ -4,31 +4,34 @@ use crate::bundle;
 use crate::components;
 use crate::resources;
 
-pub fn startup_system(
-    mut commands: Commands,
-    sprites: Res<resources::SpriteIndices>,
-) {
-    commands.spawn_bundle(OrthographicCameraBundle {
-        orthographic_projection: OrthographicProjection {
-            scale: 1.0 / 40.0,
-            ..Default::default()
-        },
-        ..OrthographicCameraBundle::new_2d()
-    }).insert(components::MainCamera);
-    commands.spawn_bundle(bundle::PlayerBundle::from_max_life(100.0, &sprites))
+pub fn startup_system(mut commands: Commands, sprites: Res<resources::SpriteIndices>) {
+    commands
+        .spawn_bundle(OrthographicCameraBundle {
+            orthographic_projection: OrthographicProjection {
+                scale: 1.0 / 40.0,
+                ..Default::default()
+            },
+            ..OrthographicCameraBundle::new_2d()
+        })
+        .insert(components::MainCamera);
+    commands
+        .spawn_bundle(bundle::PlayerBundle::from_max_life(100.0, &sprites))
         .insert(Name::new("Player"));
-    commands.spawn()
+    commands
+        .spawn()
         .insert(Name::new("Trees"))
         .insert(Transform::identity())
         .insert(GlobalTransform::identity())
         .with_children(|parent| {
             for y in -10..10 {
-                parent.spawn_bundle(bundle::TreeBundle::new(&sprites, -6.0, y as f32))
+                parent
+                    .spawn_bundle(bundle::TreeBundle::new(&sprites, -6.0, y as f32))
                     .insert(Name::new("Tree"));
             }
         });
 
-    commands.spawn_bundle(bundle::CampfireBundle::new(&sprites, -2.0, -1.0))
+    commands
+        .spawn_bundle(bundle::CampfireBundle::new(&sprites, -2.0, -1.0))
         .insert(Name::new("Campfire"));
 
     commands.spawn_bundle(UiCameraBundle {
@@ -88,27 +91,29 @@ pub fn startup_system(
                         });
 
                     // Bottom Bar separator
-                    parent.spawn_bundle(NodeBundle {
-                        style: Style {
-                            size: Size::new(Val::Px(1.0), Val::Auto),
+                    parent
+                        .spawn_bundle(NodeBundle {
+                            style: Style {
+                                size: Size::new(Val::Px(1.0), Val::Auto),
+                                ..Default::default()
+                            },
+                            color: Color::BLACK.into(),
                             ..Default::default()
-                        },
-                        color: Color::BLACK.into(),
-                        ..Default::default()
-                    })
-                    .insert(Name::new("Bottom Bar Separator"));
+                        })
+                        .insert(Name::new("Bottom Bar Separator"));
                 });
 
             // Separator
-            parent.spawn_bundle(NodeBundle {
-                style: Style {
-                    size: Size::new(Val::Auto, Val::Px(1.0)),
+            parent
+                .spawn_bundle(NodeBundle {
+                    style: Style {
+                        size: Size::new(Val::Auto, Val::Px(1.0)),
+                        ..Default::default()
+                    },
+                    color: Color::BLACK.into(),
                     ..Default::default()
-                },
-                color: Color::BLACK.into(),
-                ..Default::default()
-            })
-            .insert(Name::new("Bar Top Separator"));
+                })
+                .insert(Name::new("Bar Top Separator"));
         });
 
     commands.insert_resource(resources::InputStore::default());

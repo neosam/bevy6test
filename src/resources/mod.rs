@@ -18,7 +18,6 @@ pub struct SpriteIndices {
     pub bullet: usize,
 }
 
-
 #[derive(Default)]
 pub struct InputStore {
     pub player_move_north: bool,

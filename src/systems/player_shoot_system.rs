@@ -34,13 +34,15 @@ pub fn player_shoot_system(
                             player_transform.translation.z,
                         ),
                     };
-                    commands.spawn_bundle(bundle::BulletBundle::new(
-                        &sprites,
-                        direction,
-                        shoot_spawn,
-                        0.1,
-                        4.0,
-                    )).insert(Name::new("Bullet"));
+                    commands
+                        .spawn_bundle(bundle::BulletBundle::new(
+                            &sprites,
+                            direction,
+                            shoot_spawn,
+                            0.1,
+                            4.0,
+                        ))
+                        .insert(Name::new("Bullet"));
                 }
             }
             _ => (),
