@@ -6,7 +6,17 @@ pub fn loading_startup(
     mut handles: ResMut<resources::GraphicsHandles>,
     asset_server: Res<AssetServer>,
 ) {
-    handles.handles = asset_server.load_folder("graphics").expect("Could not load graphics folder");
+    handles.handles = vec![
+        asset_server.load("graphics/north.png"),
+        asset_server.load("graphics/south.png"),
+        asset_server.load("graphics/east.png"),
+        asset_server.load("graphics/west.png"),
+        asset_server.load("graphics/camp.png"),
+        asset_server.load("graphics/fire.png"),
+        asset_server.load("graphics/tree.png"),
+        asset_server.load("graphics/bullet.png"),
+        asset_server.load("graphics/fire.png"),
+    ];
 }
 
 pub fn loading_update(
@@ -32,7 +42,7 @@ pub fn post_loading_startup(
     let mut texture_atlas_builder = TextureAtlasBuilder::default();
     for handle in handles.handles.iter() {
         let texture = textures.get(handle).expect("Texture asset not found");
-        texture_atlas_builder.add_texture(handle.clone_weak().typed::<Image>(), texture);
+        texture_atlas_builder.add_texture(handle.clone_weak(), texture);
     }
 
     let texture_atlas = texture_atlas_builder.finish(&mut textures)

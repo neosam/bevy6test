@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 #[derive(Default)]
 pub struct GraphicsHandles {
-    pub handles: Vec<HandleUntyped>,
+    pub handles: Vec<Handle<Image>>,
 }
 
 #[derive(Default)]

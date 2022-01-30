@@ -6,7 +6,19 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bevy = {version = "0.6", features = ["dynamic"] }
+bevy = {version = "0.6" }
 #heron = {git = "https://github.com/jcornaz/heron.git", ref="64e76e4cfab7ca9452ec1657a93ab6f4e26111f3", features = ["debug-2d"]}
 heron = {versionn = "1.1", features = ["debug-2d"] }
 bevy-inspector-egui = "0.7"
+
+# Enable optimizations for dependencies (incl. Bevy), but not for our code:
+[profile.dev.package."*"]
+opt-level = 3
+
+# Maybe also enable only a small amount of optimization for our code:
+[profile.dev]
+opt-level = 1
+
+[profile.release]
+lto = "thin"
+opt-level = "s"
