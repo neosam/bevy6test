@@ -9,6 +9,7 @@ mod components;
 mod events;
 mod resources;
 mod systems;
+mod state;
 
 #[derive(PartialEq, Eq, Hash, Clone, Copy, Debug, SystemLabel)]
 pub enum GameSystemLabel {
@@ -28,20 +29,24 @@ fn main() {
         .add_plugin(LogDiagnosticsPlugin::default())
         .add_plugins(DefaultPlugins)
         .add_plugin(PhysicsPlugin::default())
+        .add_state(state::State::Ingame)
         .add_event::<events::InputEvent>()
         .add_event::<events::BurnBurnableEvent>()
-        .add_startup_system(systems::startup_system)
-        .add_system(systems::input_system.label(GameSystemLabel::Input))
-        .add_system(systems::player_system.after(GameSystemLabel::Input))
-        .add_system(systems::player_shoot_system.after(GameSystemLabel::Input))
-        .add_system(systems::life_display_system)
-        .add_system(systems::shape_update_system)
-        .add_system(systems::burn_system)
-        .add_system(systems::collision_handler_system)
-        .add_system(systems::burn::burning_system::burning_system)
-        .add_system(systems::burn::burn_down_system::burn_down_system)
-        .add_system(systems::burn::burn_recover_system::burn_recover_system)
-        .add_system(systems::damage_system)
-        .add_system(systems::despawn_system)
+        .add_system_set(SystemSet::on_enter(state::State::Ingame)
+            .with_system(systems::startup_system))
+        .add_system_set(SystemSet::on_update(state::State::Ingame)
+            .with_system(systems::input_system.label(GameSystemLabel::Input))
+            .with_system(systems::player_system.after(GameSystemLabel::Input))
+            .with_system(systems::player_shoot_system.after(GameSystemLabel::Input))
+            .with_system(systems::life_display_system)
+            .with_system(systems::shape_update_system)
+            .with_system(systems::burn_system)
+            .with_system(systems::collision_handler_system)
+            .with_system(systems::burn::burning_system::burning_system)
+            .with_system(systems::burn::burn_down_system::burn_down_system)
+            .with_system(systems::burn::burn_recover_system::burn_recover_system)
+            .with_system(systems::damage_system)
+            .with_system(systems::despawn_system)
+        )
         .run();
 }

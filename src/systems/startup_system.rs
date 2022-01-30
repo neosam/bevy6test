@@ -6,14 +6,14 @@ use crate::resources;
 
 pub fn startup_system(mut commands: Commands, asset_server: Res<AssetServer>) {
     let shapes = resources::Shapes {
-        object_north: asset_server.load("north.png"),
-        object_south: asset_server.load("south.png"),
-        object_east: asset_server.load("east.png"),
-        object_west: asset_server.load("west.png"),
-        tree: asset_server.load("tree.png"),
-        camp: asset_server.load("camp.png"),
-        fire: asset_server.load("fire.png"),
-        bullet: asset_server.load("bullet.png"),
+        object_north: asset_server.load("graphics/north.png"),
+        object_south: asset_server.load("graphics/south.png"),
+        object_east: asset_server.load("graphics/east.png"),
+        object_west: asset_server.load("graphics/west.png"),
+        tree: asset_server.load("graphics/tree.png"),
+        camp: asset_server.load("graphics/camp.png"),
+        fire: asset_server.load("graphics/fire.png"),
+        bullet: asset_server.load("graphics/bullet.png"),
     };
 
     commands.spawn_bundle(OrthographicCameraBundle {
