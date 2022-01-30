@@ -4,18 +4,10 @@ use crate::bundle;
 use crate::components;
 use crate::resources;
 
-pub fn startup_system(mut commands: Commands, asset_server: Res<AssetServer>) {
-    let shapes = resources::Shapes {
-        object_north: asset_server.load("graphics/north.png"),
-        object_south: asset_server.load("graphics/south.png"),
-        object_east: asset_server.load("graphics/east.png"),
-        object_west: asset_server.load("graphics/west.png"),
-        tree: asset_server.load("graphics/tree.png"),
-        camp: asset_server.load("graphics/camp.png"),
-        fire: asset_server.load("graphics/fire.png"),
-        bullet: asset_server.load("graphics/bullet.png"),
-    };
-
+pub fn startup_system(
+    mut commands: Commands,
+    sprites: Res<resources::SpriteIndices>,
+) {
     commands.spawn_bundle(OrthographicCameraBundle {
         orthographic_projection: OrthographicProjection {
             scale: 1.0 / 40.0,
@@ -23,12 +15,21 @@ pub fn startup_system(mut commands: Commands, asset_server: Res<AssetServer>) {
         },
         ..OrthographicCameraBundle::new_2d()
     });
-    commands.spawn_bundle(bundle::PlayerBundle::from_max_life(100.0, &shapes));
-    for y in -10..10 {
-        commands.spawn_bundle(bundle::TreeBundle::new(&shapes, -6.0, y as f32));
-    }
+    commands.spawn_bundle(bundle::PlayerBundle::from_max_life(100.0, &sprites))
+        .insert(Name::new("Player"));
+    commands.spawn()
+        .insert(Name::new("Trees"))
+        .insert(Transform::identity())
+        .insert(GlobalTransform::identity())
+        .with_children(|parent| {
+            for y in -10..10 {
+                parent.spawn_bundle(bundle::TreeBundle::new(&sprites, -6.0, y as f32))
+                    .insert(Name::new("Tree"));
+            }
+        });
 
-    commands.spawn_bundle(bundle::CampfireBundle::new(&shapes, -2.0, -1.0));
+    commands.spawn_bundle(bundle::CampfireBundle::new(&sprites, -2.0, -1.0))
+        .insert(Name::new("Campfire"));
 
     commands.spawn_bundle(UiCameraBundle {
         ..Default::default()
@@ -104,6 +105,5 @@ pub fn startup_system(mut commands: Commands, asset_server: Res<AssetServer>) {
             });
         });
 
-    commands.insert_resource(shapes);
     commands.insert_resource(resources::InputStore::default());
 }

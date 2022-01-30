@@ -5,19 +5,19 @@ use crate::components;
 pub fn shape_update_system(
     mut query: Query<
         (
-            &mut Handle<Image>,
+            &mut TextureAtlasSprite,
             &components::Direction,
             &components::CreatureShapes,
         ),
         Changed<components::Direction>,
     >,
 ) {
-    for (mut image, direction, shapes) in query.iter_mut() {
+    for (mut sprite, direction, shapes) in query.iter_mut() {
         match *direction {
-            components::Direction::North => *image = shapes.north.clone(),
-            components::Direction::South => *image = shapes.south.clone(),
-            components::Direction::East => *image = shapes.east.clone(),
-            components::Direction::West => *image = shapes.west.clone(),
+            components::Direction::North => sprite.index = shapes.north,
+            components::Direction::South => sprite.index = shapes.south,
+            components::Direction::East => sprite.index = shapes.east,
+            components::Direction::West => sprite.index = shapes.west,
         };
     }
 }

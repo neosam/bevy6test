@@ -15,6 +15,8 @@ pub fn loading_update(
     mut state: ResMut<State<state::State>>,
 ) {
     if asset_server.get_group_load_state(handles.handles.iter().map(|handle| handle.id)) == LoadState::Loaded {
+        let handle_count = handles.handles.len();
+        bevy::log::info!("Loaded {handle_count} textures");
         state.set(state::State::PostLoading).expect("Could not change state to PostLoading");
     }
 }

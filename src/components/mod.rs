@@ -1,12 +1,13 @@
 use bevy::prelude::*;
+use bevy_inspector_egui::Inspectable;
 
-#[derive(Component)]
+#[derive(Component, Inspectable)]
 pub struct LifeUI;
 
-#[derive(Component)]
+#[derive(Component, Inspectable)]
 pub struct Player;
 
-#[derive(Component)]
+#[derive(Component, Inspectable)]
 pub struct Health {
     pub current: f32,
     pub max: f32,
@@ -17,15 +18,15 @@ impl Health {
     }
 }
 
-#[derive(Component)]
+#[derive(Component, Inspectable)]
 pub struct CreatureShapes {
-    pub north: Handle<Image>,
-    pub south: Handle<Image>,
-    pub east: Handle<Image>,
-    pub west: Handle<Image>,
+    pub north: usize,
+    pub south: usize,
+    pub east: usize,
+    pub west: usize,
 }
 
-#[derive(Component)]
+#[derive(Component, Inspectable)]
 pub enum Direction {
     North,
     South,
@@ -33,14 +34,14 @@ pub enum Direction {
     West,
 }
 
-#[derive(Component, Clone)]
+#[derive(Component, Clone, Inspectable)]
 pub struct Burn {
     pub fuel: f32,
     pub radius: f32,
     pub strength: f32,
 }
 
-#[derive(Component)]
+#[derive(Component, Inspectable)]
 pub struct Burnable {
     pub resist: f32,
     pub max_resistence: f32,
@@ -51,10 +52,10 @@ pub struct Burnable {
     pub burn: Burn,
 }
 
-#[derive(Component)]
+#[derive(Component, Inspectable)]
 pub struct Destroyed;
 
-#[derive(Component)]
+#[derive(Component, Inspectable)]
 pub struct AutoDespawn {
     pub time_left: f32,
     pub frames_left: i32,

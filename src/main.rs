@@ -2,6 +2,7 @@ use bevy::{
     diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin},
     prelude::*,
 };
+use bevy_inspector_egui::{WorldInspectorPlugin, RegisterInspectable};
 use heron::prelude::*;
 
 mod bundle;
@@ -29,16 +30,28 @@ fn main() {
         .add_plugin(LogDiagnosticsPlugin::default())
         .add_plugins(DefaultPlugins)
         .add_plugin(PhysicsPlugin::default())
-        .add_state(state::State::Ingame)
+        .add_plugin(WorldInspectorPlugin::new())
+        .register_inspectable::<components::AutoDespawn>()
+        .register_inspectable::<components::Burn>()
+        .register_inspectable::<components::Burnable>()
+        .register_inspectable::<components::CreatureShapes>()
+        .register_inspectable::<components::Destroyed>()
+        .register_inspectable::<components::Health>()
+        .register_inspectable::<components::LifeUI>()
+        .register_inspectable::<components::Player>()
+        .register_inspectable::<components::Direction>()
+
+        .add_state(state::State::Loading)
         .add_event::<events::InputEvent>()
         .add_event::<events::BurnBurnableEvent>()
         .insert_resource(resources::GraphicsHandles::default())
+        .insert_resource(resources::SpriteIndices::default())
 
         .add_system_set(SystemSet::on_enter(state::State::Loading)
             .with_system(systems::loading::loading_startup))
         .add_system_set(SystemSet::on_update(state::State::Loading)
             .with_system(systems::loading::loading_update))
-        .add_system_set(SystemSet::on_enter(state::State::PostLoading)
+        .add_system_set(SystemSet::on_update(state::State::PostLoading)
             .with_system(systems::loading::post_loading_startup))
 
         .add_system_set(SystemSet::on_enter(state::State::Ingame)

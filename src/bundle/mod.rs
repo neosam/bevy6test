@@ -16,26 +16,27 @@ pub struct CreatureBundle {
     burnable: components::Burnable,
 
     #[bundle]
-    sprite_bundle: SpriteBundle,
+    sprite_sheet_bundle: SpriteSheetBundle,
 }
 impl CreatureBundle {
-    pub fn with_max_life(max_life: f32, shapes: &resources::Shapes) -> Self {
+    pub fn with_max_life(max_life: f32, sprites: &resources::SpriteIndices) -> Self {
         CreatureBundle {
-            sprite_bundle: SpriteBundle {
-                texture: shapes.object_south.clone(),
-                sprite: Sprite {
+            sprite_sheet_bundle: SpriteSheetBundle {
+                sprite: TextureAtlasSprite {
                     custom_size: Some(Vec2::new(1.0, 1.0)),
+                    index: sprites.object_south,
                     ..Default::default()
                 },
-                ..SpriteBundle::default()
+                texture_atlas: sprites.atlas_handle.clone(),
+                ..SpriteSheetBundle::default()
             },
             life: components::Health::with_max(max_life),
             direction: components::Direction::South,
             creature_shape: components::CreatureShapes {
-                north: shapes.object_north.clone(),
-                south: shapes.object_south.clone(),
-                east: shapes.object_east.clone(),
-                west: shapes.object_west.clone(),
+                north: sprites.object_north,
+                south: sprites.object_south,
+                east: sprites.object_east,
+                west: sprites.object_west,
             },
 
             rigid_body: RigidBody::Dynamic,
@@ -70,11 +71,11 @@ pub struct PlayerBundle {
     creature: CreatureBundle,
 }
 impl PlayerBundle {
-    pub fn from_max_life(max_life: f32, shapes: &resources::Shapes) -> Self {
+    pub fn from_max_life(max_life: f32, sprites: &resources::SpriteIndices) -> Self {
         PlayerBundle {
             player: components::Player,
             creature: CreatureBundle {
-                ..CreatureBundle::with_max_life(max_life, shapes)
+                ..CreatureBundle::with_max_life(max_life, sprites)
             },
         }
     }
@@ -83,7 +84,7 @@ impl PlayerBundle {
 #[derive(Bundle)]
 pub struct TreeBundle {
     #[bundle]
-    sprite_bundle: SpriteBundle,
+    sprite_sheet_bundle: SpriteSheetBundle,
 
     rigid_body: RigidBody,
     collision_shape: CollisionShape,
@@ -91,14 +92,15 @@ pub struct TreeBundle {
     health: components::Health,
 }
 impl TreeBundle {
-    pub fn new(shapes: &resources::Shapes, x: f32, y: f32) -> Self {
+    pub fn new(sprites: &resources::SpriteIndices, x: f32, y: f32) -> Self {
         TreeBundle {
-            sprite_bundle: SpriteBundle {
-                texture: shapes.tree.clone(),
-                sprite: Sprite {
+            sprite_sheet_bundle: SpriteSheetBundle {
+                sprite: TextureAtlasSprite {
                     custom_size: Some(Vec2::new(1.0, 1.0)),
+                    index: sprites.tree,
                     ..Default::default()
                 },
+                texture_atlas: sprites.atlas_handle.clone(),
                 transform: Transform::from_xyz(x, y, 100.0),
                 ..Default::default()
             },
@@ -128,20 +130,21 @@ impl TreeBundle {
 #[derive(Bundle)]
 pub struct CampfireBundle {
     #[bundle]
-    sprite_bundle: SpriteBundle,
+    sprite_sheet_bundle: SpriteSheetBundle,
 
     burnable: components::Burnable,
 }
 impl CampfireBundle {
-    pub fn new(shapes: &resources::Shapes, x: f32, y: f32) -> Self {
+    pub fn new(sprites: &resources::SpriteIndices, x: f32, y: f32) -> Self {
         CampfireBundle {
-            sprite_bundle: SpriteBundle {
-                texture: shapes.camp.clone(),
-                sprite: Sprite {
+            sprite_sheet_bundle: SpriteSheetBundle {
+                sprite: TextureAtlasSprite {
                     custom_size: Some(Vec2::new(1.0, 1.0)),
+                    index: sprites.camp,
                     ..Default::default()
                 },
                 transform: Transform::from_xyz(x, y, 100.0),
+                texture_atlas: sprites.atlas_handle.clone(),
                 ..Default::default()
             },
             burnable: components::Burnable {
@@ -164,22 +167,23 @@ impl CampfireBundle {
 #[derive(Bundle)]
 pub struct Fire {
     #[bundle]
-    pub sprite_bundle: SpriteBundle,
+    pub sprite_sheet_bundle: SpriteSheetBundle,
 
     pub burn: components::Burn,
     pub rigid_body: RigidBody,
     pub collision_shape: CollisionShape,
 }
 impl Fire {
-    pub fn new(shapes: &resources::Shapes, burnable: &components::Burnable) -> Self {
+    pub fn new(sprites: &resources::SpriteIndices, burnable: &components::Burnable) -> Self {
         Fire {
-            sprite_bundle: SpriteBundle {
-                texture: shapes.fire.clone(),
-                sprite: Sprite {
+            sprite_sheet_bundle: SpriteSheetBundle {
+                sprite: TextureAtlasSprite {
                     custom_size: Some(Vec2::new(0.8, 0.8)),
+                    index: sprites.fire,
                     ..Default::default()
                 },
                 transform: Transform::from_xyz(0.0, 0.0, 100.0),
+                texture_atlas: sprites.atlas_handle.clone(),
                 ..Default::default()
             },
             burn: burnable.burn.clone(),
@@ -194,7 +198,7 @@ impl Fire {
 #[derive(Bundle)]
 pub struct BulletBundle {
     #[bundle]
-    pub sprite_bundle: SpriteBundle,
+    pub sprite_sheet_bundle: SpriteSheetBundle,
 
     pub rigid_body: RigidBody,
     pub collision_shape: CollisionShape,
@@ -204,7 +208,7 @@ pub struct BulletBundle {
 }
 impl BulletBundle {
     pub fn new(
-        images: &resources::Shapes,
+        sprites: &resources::SpriteIndices,
         direction: &components::Direction,
         position: Vec3,
         radius: f32,
@@ -217,13 +221,14 @@ impl BulletBundle {
             components::Direction::West => Vec3::new(-speed, 0.0, 0.0),
         };
         BulletBundle {
-            sprite_bundle: SpriteBundle {
-                texture: images.bullet.clone(),
-                sprite: Sprite {
+            sprite_sheet_bundle: SpriteSheetBundle {
+                sprite: TextureAtlasSprite {
                     custom_size: Some(Vec2::new(radius / 2.0, radius / 2.0)),
+                    index: sprites.bullet,
                     ..Default::default()
                 },
                 transform: Transform::identity().with_translation(position),
+                texture_atlas: sprites.atlas_handle.clone(),
                 ..Default::default()
             },
 

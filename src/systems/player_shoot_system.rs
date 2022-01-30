@@ -6,7 +6,7 @@ pub fn player_shoot_system(
     mut commands: Commands,
     query: Query<(&components::Direction, &GlobalTransform), With<components::Player>>,
     mut movements: EventReader<events::InputEvent>,
-    shapes: Res<resources::Shapes>,
+    sprites: Res<resources::SpriteIndices>,
 ) {
     for input in movements.iter() {
         match *input {
@@ -35,7 +35,7 @@ pub fn player_shoot_system(
                     ),
                 };
                 commands.spawn_bundle(bundle::BulletBundle::new(
-                    &shapes,
+                    &sprites,
                     direction,
                     shoot_spawn,
                     0.1,
