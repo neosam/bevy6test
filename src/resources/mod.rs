@@ -16,6 +16,7 @@ pub struct SpriteIndices {
     pub camp: usize,
     pub fire: usize,
     pub bullet: usize,
+    pub log: usize,
 }
 
 #[derive(Default)]

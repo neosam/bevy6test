@@ -78,6 +78,8 @@ fn main() {
                 .with_system(systems::burn::burning_system::burning_system)
                 .with_system(systems::burn::burn_down_system::burn_down_system)
                 .with_system(systems::burn::burn_recover_system::burn_recover_system)
+                .with_system(systems::physics_handler)
+                .with_system(systems::destroyed_handler)
                 .with_system(systems::damage_system)
                 .with_system(systems::despawn_system),
         )

@@ -16,6 +16,7 @@ pub fn loading_startup(
         asset_server.load("graphics/tree.png"),
         asset_server.load("graphics/bullet.png"),
         asset_server.load("graphics/fire.png"),
+        asset_server.load("graphics/log.png"),
     ];
 }
 
@@ -76,6 +77,9 @@ pub fn post_loading_startup(
             .unwrap(),
         bullet: texture_atlas
             .get_texture_index(&asset_server.get_handle("graphics/bullet.png"))
+            .unwrap(),
+        log: texture_atlas
+            .get_texture_index(&asset_server.get_handle("graphics/log.png"))
             .unwrap(),
 
         atlas_handle: texture_atlases.add(texture_atlas),

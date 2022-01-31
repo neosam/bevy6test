@@ -63,3 +63,11 @@ pub struct AutoDespawn {
     pub time_left: f32,
     pub frames_left: i32,
 }
+
+#[derive(Component, Inspectable)]
+pub enum DestroyTransform {
+    Log,
+}
+
+#[derive(Component, Inspectable)]
+pub struct Movable;

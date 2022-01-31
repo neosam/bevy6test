@@ -90,6 +90,7 @@ pub struct TreeBundle {
     collision_shape: CollisionShape,
     burnable: components::Burnable,
     health: components::Health,
+    destroy_transform: components::DestroyTransform
 }
 impl TreeBundle {
     pub fn new(sprites: &resources::SpriteIndices, x: f32, y: f32) -> Self {
@@ -123,6 +124,7 @@ impl TreeBundle {
                 },
             },
             health: components::Health::with_max(10.0),
+            destroy_transform: components::DestroyTransform::Log,
         }
     }
 }
@@ -254,6 +256,60 @@ impl BulletBundle {
                 time_left: 10.0,
                 frames_left: 0,
             },
+        }
+    }
+}
+
+#[derive(Bundle)]
+pub struct LogBundle {
+    #[bundle]
+    pub sprite_sheet_bundle: SpriteSheetBundle,
+
+    pub rigid_body: RigidBody,
+    pub collision_shape: CollisionShape,
+    pub burnable: components::Burnable,
+    pub health: components::Health,
+    pub physic_material: PhysicMaterial,
+    pub damping: Damping,
+    pub rotation_constraints: RotationConstraints,
+}
+
+impl LogBundle {
+    pub fn new(
+        sprites: &resources::SpriteIndices,
+        position: Vec3,
+    ) -> Self {
+        LogBundle {
+            sprite_sheet_bundle: SpriteSheetBundle {
+                sprite: TextureAtlasSprite {
+                    custom_size: Some(Vec2::new(1.0, 1.0)),
+                    index: sprites.log,
+                    ..Default::default()
+                },
+                transform: Transform::identity().with_translation(position),
+                texture_atlas: sprites.atlas_handle.clone(),
+                ..Default::default()
+            },
+
+            rigid_body: RigidBody::Dynamic,
+            collision_shape: CollisionShape::Sphere { radius: 0.5 },
+            physic_material: PhysicMaterial { friction: 1.0, density: 10.0, restitution: 1.0 },
+            burnable: components::Burnable {
+                resist: 0.1,
+                max_resistence: 0.1,
+                min_resistence_to_burn: 0.1,
+                recover: 0.0,
+                inactive: false,
+                burning: false,
+                burn: components::Burn {
+                    fuel: 20.0,
+                    radius: 0.3,
+                    strength: 0.5,
+                },
+            },
+            health: components::Health::with_max(10.0),
+            damping: Damping::from_linear(10.0),
+            rotation_constraints: RotationConstraints::lock(),
         }
     }
 }

@@ -16,7 +16,7 @@ pub fn damage_system(
                 .insert(components::Destroyed)
                 .insert(components::AutoDespawn {
                     time_left: 0.0,
-                    frames_left: 2,
+                    frames_left: 5,
                 });
             if let Some(mut visibility) = visibility {
                 visibility.is_visible = false;
