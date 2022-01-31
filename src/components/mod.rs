@@ -70,4 +70,7 @@ pub enum DestroyTransform {
 }
 
 #[derive(Component, Inspectable)]
-pub struct Movable;
+pub struct Damager {
+    pub strength: f32,
+    pub single_hit: bool,
+}

@@ -2,6 +2,7 @@ use bevy::prelude::*;
 use heron::prelude::*;
 
 use crate::components;
+use crate::components::Damager;
 use crate::resources;
 
 #[derive(Bundle)]
@@ -41,15 +42,15 @@ impl CreatureBundle {
 
             rigid_body: RigidBody::Dynamic,
             collision_shape: CollisionShape::Cuboid {
-                half_extends: Vec3::new(0.4, 0.4, 1000.0),
+                half_extends: Vec3::new(0.35, 0.35, 1000.0),
                 border_radius: Some(0.1),
             },
             rotation_constraints: RotationConstraints::lock(),
             velocity: Velocity::from_linear(Vec3::new(0.0, 0.0, 0.0)),
             burnable: components::Burnable {
-                resist: 5.0,
-                max_resistence: 5.0,
-                min_resistence_to_burn: 5.0,
+                resist: 1.0,
+                max_resistence: 1.0,
+                min_resistence_to_burn: 1.0,
                 recover: 0.5,
                 inactive: false,
                 burning: false,
@@ -107,7 +108,7 @@ impl TreeBundle {
             },
             rigid_body: RigidBody::Static,
             collision_shape: CollisionShape::Cuboid {
-                half_extends: Vec3::new(0.4, 0.4, 1000.0),
+                half_extends: Vec3::new(0.35, 0.35, 1000.0),
                 border_radius: Some(0.1),
             },
             burnable: components::Burnable {
@@ -120,7 +121,7 @@ impl TreeBundle {
                 burn: components::Burn {
                     fuel: 11.0,
                     radius: 1.0,
-                    strength: 1.0,
+                    strength: 2.0,
                 },
             },
             health: components::Health::with_max(10.0),
@@ -206,8 +207,9 @@ pub struct BulletBundle {
     pub collision_shape: CollisionShape,
     pub velocity: Velocity,
     pub burnable: components::Burnable,
-    pub health: components::Health,
+    //pub health: components::Health,
     pub auto_despawn: components::AutoDespawn,
+    pub damager: components::Damager,
 }
 impl BulletBundle {
     pub fn new(
@@ -246,16 +248,20 @@ impl BulletBundle {
                 inactive: false,
                 burning: false,
                 burn: components::Burn {
-                    fuel: 20.0,
+                    fuel: 1000000.0,
                     radius: 0.3,
-                    strength: 0.5,
+                    strength: 1000.0,
                 },
             },
-            health: components::Health::with_max(1.0),
+            //health: components::Health::with_max(1.0),
             auto_despawn: components::AutoDespawn {
                 time_left: 10.0,
                 frames_left: 0,
             },
+            damager: Damager {
+                strength: 4.0,
+                single_hit: true,
+            }
         }
     }
 }
@@ -292,8 +298,11 @@ impl LogBundle {
             },
 
             rigid_body: RigidBody::Dynamic,
-            collision_shape: CollisionShape::Sphere { radius: 0.5 },
-            physic_material: PhysicMaterial { friction: 1.0, density: 10.0, restitution: 1.0 },
+            collision_shape: CollisionShape::Cuboid {
+                half_extends: Vec3::new(0.35, 0.35, 1000.0),
+                border_radius: Some(0.1),
+            },
+            physic_material: PhysicMaterial { friction: 1.0, density: 1.0, restitution: 1.0 },
             burnable: components::Burnable {
                 resist: 0.1,
                 max_resistence: 0.1,
@@ -303,7 +312,7 @@ impl LogBundle {
                 burning: false,
                 burn: components::Burn {
                     fuel: 20.0,
-                    radius: 0.3,
+                    radius: 1.0,
                     strength: 0.5,
                 },
             },

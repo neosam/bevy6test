@@ -39,7 +39,7 @@ pub fn player_shoot_system(
                             &sprites,
                             direction,
                             shoot_spawn,
-                            0.1,
+                            0.25,
                             4.0,
                         ))
                         .insert(Name::new("Bullet"));

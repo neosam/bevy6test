@@ -26,3 +26,9 @@ pub struct BurnBurnableEvent {
     pub burnable_entity: Entity,
     pub stage: EventStage,
 }
+
+pub struct DamagerHealthEvent {
+    pub damager_entity: Entity,
+    pub health_entity: Entity,
+    pub stage: EventStage,
+}

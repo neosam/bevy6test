@@ -44,6 +44,7 @@ fn main() {
         .add_state(state::State::Loading)
         .add_event::<events::InputEvent>()
         .add_event::<events::BurnBurnableEvent>()
+        .add_event::<events::DamagerHealthEvent>()
         .insert_resource(resources::GraphicsHandles::default())
         .insert_resource(resources::SpriteIndices::default())
         .add_system_set(
@@ -78,9 +79,9 @@ fn main() {
                 .with_system(systems::burn::burning_system::burning_system)
                 .with_system(systems::burn::burn_down_system::burn_down_system)
                 .with_system(systems::burn::burn_recover_system::burn_recover_system)
-                .with_system(systems::physics_handler)
-                .with_system(systems::destroyed_handler)
                 .with_system(systems::damage_system)
+                .with_system(systems::destroyed_handler)
+                .with_system(systems::destroy_system)
                 .with_system(systems::despawn_system),
         )
         .run();

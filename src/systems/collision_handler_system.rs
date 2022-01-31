@@ -25,7 +25,10 @@ pub fn collision_handler_system(
     mut collision_events: EventReader<CollisionEvent>,
     burn_query: Query<&components::Burn>,
     burnable_query: Query<&components::Burnable>,
+    damager_query: Query<&components::Damager>,
+    health_query: Query<&components::Health>,
     mut burn_burnable_events: EventWriter<events::BurnBurnableEvent>,
+    mut damager_health_events: EventWriter<events::DamagerHealthEvent>,
 ) {
     for event in collision_events.iter() {
         let (entity1, entity2) = event.collision_shape_entities();
@@ -40,6 +43,22 @@ pub fn collision_handler_system(
             burn_burnable_events.send(events::BurnBurnableEvent {
                 burn_entity: entity1,
                 burnable_entity: entity2,
+                stage: events::EventStage::from_started(event.is_started()),
+            });
+        }
+
+        let (entity1, entity2) = event.collision_shape_entities();
+        if let Some((entity1, entity2)) = check_collision!(
+            components::Damager,
+            damager_query,
+            components::Health,
+            health_query,
+            entity1,
+            entity2
+        ) {
+            damager_health_events.send(events::DamagerHealthEvent {
+                damager_entity: entity1,
+                health_entity: entity2,
                 stage: events::EventStage::from_started(event.is_started()),
             });
         }
